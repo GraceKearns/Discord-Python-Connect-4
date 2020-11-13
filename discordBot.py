@@ -8,57 +8,36 @@ from discord import Embed
 client = discord.Client()
 global gameActive
 gameActive = False
-commands = ["$hello", "$getnumoutofthis", "$getlettersoutofthis","$capsthis","$connect4","$connect4restart"]
+commands = ["$connect4"]
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
-
 @client.event
 async def on_message(message):
     global gameActive
     messagelowers = message.content
     messagelowers = messagelowers.lower()
-    if messagelowers.startswith(commands[0]):
-        await message.channel.send('Hello!')
-    if messagelowers.startswith(commands[1]):
-         output = ""
-         s = message.content
-         for i,c in enumerate(s):
-            if c.isdigit():
-                output += c + ", "
-         await message.channel.send(output)        
-    if messagelowers.startswith(commands[2]):
-         output = ""
-         s = message.content
-         p = 0
-         for i in s:
-             p +=1
-             if i.isalpha() and p > 20:
-                output += i + ", "
-         await message.channel.send(output)        
-    if messagelowers.startswith(commands[3]):
-         await message.channel.send(message.content[len(commands[3]):].upper())
-    if messagelowers.startswith(commands[4]) and gameActive == False:
+    if messagelowers.startswith(commands[0]) and gameActive == False:
          global counterAmountY
          global counterAmountR
          global fill
          global toprowfull
          global currentTurn
          gameActive = True
+         toprowfull = False
+         statement = False
+         noslotsleft = True
          x1 = 110
          x2 = 530
          y1 = 50
          y2 = 430
-         fill = "red"
-         toprowfull = False
-         statement = False
          circlestartx = 120
          circlestarty = 60
          incrementx = 47.142
          incrementy = 50
          counterAmountY = 0
-         noslotsleft = True
          counterAmountR = 0
+         fill = "red"
          img = Image.new('RGB', (640, 520), color = 'white')
          counterPlacement  = [[0, 0, 0, 0, 0, 0, 0],
                               [0, 0, 0, 0, 0, 0, 0],
@@ -176,7 +155,7 @@ async def on_message(message):
                      toprowfull = False
                  img.save('GameBoard.png')     
             try:
-                reaction,user = await client.wait_for('reaction_add',timeout=30,check=check)
+                reaction = await client.wait_for('reaction_add',timeout=30,check=check)
             except asyncio.TimeoutError:
                 await message.channel.send("oops the opposing team didn't respond in 30 seconds and they lost")
                 gameActive = False
@@ -188,7 +167,7 @@ async def on_message(message):
             if winCondition() == "Yellow":
                      await msg.edit(content="Yellow is the winner") 
                      gameActive = False
-                     return
+                     return         
             if reaction.emoji == '1️⃣':
                  inputnumber(1)
             if reaction.emoji == '2️⃣':
@@ -203,15 +182,13 @@ async def on_message(message):
                  inputnumber(6)
             if reaction.emoji == '7️⃣':
                  inputnumber(7) 
-                 
             for i in range(7):
                 for f in range(6):
                      if counterPlacement[i][f] == 0:
                           noslotsleft = False
                           break
                 if noslotsleft == False:
-                     break              
-                          
+                     break                     
             if(noslotsleft == True):
                 await msg.edit(content="There are no slots left the game has ended in a tie!") 
                 gameActive = False
