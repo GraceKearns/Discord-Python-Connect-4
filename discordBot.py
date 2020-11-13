@@ -217,4 +217,4 @@ async def on_message(message):
                 gameActive = False
                 return
             await msg.delete()         
-client.run('Nzc0NTA3MDUxNjY0NjcwNzY3.X6Yx5g.08EuVWXIhzitBZBjcvWa8K2PY_o')
+client.run('Token')
