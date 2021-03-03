@@ -5,4 +5,8 @@ To start a game type "$connect4 @Discord_Name" and the game will start with you 
 <div>
 <img src="https://i.imgur.com/hNlyksW.png" </img>
 </div>
-
+React to the numbers to place one of your counters in the associate column of that counter, e.g choosing "1" will place your counter in the 1st column to the left.
+<div>
+<img src="https://i.imgur.com/DdNNjs6.png" </img>
+</div>
+Upon reacting, the bot will delete the image and repost it so it doesn't clutter text chats with the placement of the counter as shown above.
