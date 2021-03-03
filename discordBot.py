@@ -58,7 +58,8 @@ async def on_message(message):
          img.save('GameBoard.png')
          id = '<@!%s>' % message.author.id
          id2 = message.content
-         id2 = id2[7:]
+         id2 = id2[10:]
+         print(id2)
          currentTurn = id
          await message.channel.send("Starting a game of connect 4 with %s as YELLOW and %s as RED, Yellow goes first" % (id,id2))
          while statement != True:
@@ -155,7 +156,7 @@ async def on_message(message):
                      toprowfull = False
                  img.save('GameBoard.png')     
             try:
-                reaction = await client.wait_for('reaction_add',timeout=30,check=check)
+                reaction,user = await client.wait_for('reaction_add',timeout=30,check=check)
             except asyncio.TimeoutError:
                 await message.channel.send("oops the opposing team didn't respond in 30 seconds and they lost")
                 gameActive = False
@@ -194,4 +195,4 @@ async def on_message(message):
                 gameActive = False
                 return
             await msg.delete()         
-client.run('Token')
+client.run('')
